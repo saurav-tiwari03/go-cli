@@ -7,6 +7,7 @@ import (
 	"os/exec"
 
 )
+
 func operation(request string) {
 	if request == "1" {
 		scanner := bufio.NewScanner(os.Stdin)
@@ -25,8 +26,11 @@ func operation(request string) {
 		exec.Command("git", "commit", "-m", commitMessage).CombinedOutput()
 		fmt.Println("Commited!")
 
-		exec.Command("git", "push", "origin", branchName).CombinedOutput()
-		fmt.Println("Pushed!")
+		s, error := exec.Command("git", "push", "origin", branchName).CombinedOutput()
+		if error != nil {
+			fmt.Println("Error while pushing the code", error)
+		}
+		fmt.Println("Pushed!",s)
 	}
 }
 
